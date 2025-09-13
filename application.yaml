@@ -14,7 +14,7 @@ spring:
       hibernate:
         format_sql: true
   liquibase:
-    change-log: db.changelog/changelog.xml
+    change-log: db.changelog/db.changelog-master.yaml
 
     
 resilience4j:
