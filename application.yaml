@@ -1,64 +1,9 @@
-server:
-  port: ${SERVER_PORT}
-spring:
-  datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    open-in-view: false
-    properties:
-      hibernate:
-        format_sql: true
-  liquibase:
-    change-log: db.changelog/db.changelog-master.yaml
-
-    
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        registerHealthIndicator: true
-#       Запустили приложение, отправили один, если ошибочный, вклучается CB
-#       Если minimumNumberOfCalls: 10, то пропускаем 9, на 10 если ошибка, включается CB
-        minimumNumberOfCalls: 1
-#       Сколько запросов сделает в HALF_OPEN_STATE
-#       Одной ошибки достаточно, сделает только 1 запрос на удаленный сервер
-        permittedNumberOfCallsInHalfOpenState: 3
-#       HALF_OPEN_STATE в этому статусе проверят удаленный серер
-#       OPEN_SATE в этом статусе дергает fallBackMethod
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-#       OPEN_SATE в этом статусе дергает fallBackMethod
-#       Все запросы которые приходят на accounting-service, получают fallBackMethod
-#       После включения CB, состояние OPEN_SATE, ждет 5 секунд, переходит в HALF_OPEN_STATE
-#       Проверяет удаленный сервис
-        waitDurationInOpenState: 5s
-#       Процент от slidingWindowSize, в итоге 5 падений, status Open
-        failureRateThreshold: 50
-#       Окно анализац запросов
-        slidingWindowSize: 10
-#       Другой варинат time_based в мс
-#       slidingWindowSize: 10000 например окно в 10000 это окно в 10 сек
-        sliding-window-type: COUNT_BASED
-#       Количество событий которые запоминает в буфере
-        eventConsumerBufferSize: 10
-    instances:
-      accounting-service:
-        baseConfig: default
-      security-service:
-        baseConfig: default
-    circuit-breaker-aspect-order: 1
-  retry:
-    retry-aspect-order: 2
-    configs:
-      default:
-        max-attempts: 10
-        wait-duration: 1500
-    instances:
-      accounting-service:
-        baseConfig: default
-      security-service:
-        baseConfig: default
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+logging:
+  level:
+    root: INFO
