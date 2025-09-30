@@ -22,7 +22,7 @@ spring:
       accounting-request: accounting-allocate-requests
       security-check: security-check-requests
       notification-send-requests: notification-send-requests
-    producer:
+  producer:
       bootstrap-servers: localhost:9092,localhost:9094
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -46,7 +46,7 @@ spring:
         request.timeout.ms: 5000 # Как долго мы ждем ответа(Отправили запрос ждем acks)  
         enable.idempotence: true # Максимальное количество одновременно отправленных запросов, от которых еще нет ответа.  
         max.in.flight.requests.per.connection: 5
-    consumer:
+  consumer:
       bootstrap-servers: localhost:9092,localhost:9094
       group-id: recruitment-responses-event-consumers
       properties:
