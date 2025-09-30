@@ -53,6 +53,7 @@ spring:
       recruitment-response: internal-recruitment-responses
       accounting-request: accounting-allocate-requests
       security-check: security-check-requests
+      notification-send-requests: notification-send-requests
       
 resilience4j:
   circuitbreaker:
