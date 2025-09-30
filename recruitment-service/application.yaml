@@ -1,6 +1,8 @@
 server:
   port: ${SERVER_PORT}
 spring:
+  application:
+    name: RECRUITMENT-SERVICE
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
@@ -15,45 +17,39 @@ spring:
         format_sql: true
   liquibase:
     change-log: db.changelog/db.changelog-master.yaml
-  
+
   kafka:
-   topics:
+    producer:
+      bootstrap-servers: localhost:9092,localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      properties:
+        spring.json.trusted.packages:
+          -'by.javaguru.jdmik7.core.event'
+          -'by.javaguru.jdmik7.core.command'
+        enable.idempotence: true
+        linger.ms: 20
+        delivery.timeout.ms: 120000
+        request.timeout.ms: 30000
+        max.in.flight.requests.per.connection: 5
+    consumer:
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      bootstrap-servers: localhost:9092,localhost:9094
+      group-id: recruitment-responses-event-consumers
+      properties:
+        spring.json.trusted.packages:
+          -'by.javaguru.jdmik7.core.event'
+          -'by.javaguru.jdmik7.core.command'
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.UUIDDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+    topics:
       recruitment-response: internal-recruitment-responses
       accounting-request: accounting-allocate-requests
       security-check: security-check-requests
       notification-send-requests: notification-send-requests
-  producer:
-      bootstrap-servers: localhost:9092,localhost:9094
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      #      Лидер вернет acks от всех insync replicas, зависит от параметра топика  
-      #      Если min.insync.replicas = 2, Replicas = 3, то достаточно от двух реплик ответ.  
-      acks: all
-      #      Количество повторов  
-      #      НЕРЕКОМЕНДУЕМЫЙ ПАРАМЕТР  
-      #      retries: 10  
-      #      Интервал повторений в мс, каждую секунду. Всего вместе с retries будем повторять 10 сек.  
-      #      НЕРЕКОМЕНДУЕМЫЙ ПАРАМЕТР  
-      #      properties:  
-      #        retry:  
-      #          backoff:  
-      #            ms: 1000  
-      properties:
-        #        Общее время на попытки достучаться до брокеров(До усешной отправки)  
-        #        delivery.timeout.ms >= linger.ms + request.timeout.ms  
-        delivery.timeout.ms: 10000
-        linger.ms: 0 # Копим сообщения в мс, потом отправляем одним батчем.  
-        request.timeout.ms: 5000 # Как долго мы ждем ответа(Отправили запрос ждем acks)  
-        enable.idempotence: true # Максимальное количество одновременно отправленных запросов, от которых еще нет ответа.  
-        max.in.flight.requests.per.connection: 5
-  consumer:
-      bootstrap-servers: localhost:9092,localhost:9094
-      group-id: recruitment-responses-event-consumers
-      properties:
-        spring.json.trusted.packages: by.javaguru.jdmik7.core.event,by.javaguru.jdmik7.core.command
-        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.UUIDDeserializer
-        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer   
-      
+
 resilience4j:
   circuitbreaker:
     configs:
