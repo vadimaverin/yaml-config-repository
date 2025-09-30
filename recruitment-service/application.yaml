@@ -46,6 +46,8 @@ spring:
       group-id: recruitment-responses-event-consumers
       properties:
         spring.json.trusted.packages: by.javaguru.jdmik7.core.event
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.UUIDDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
   kafka:
     topics:
       recruitment-response: internal-recruitment-responses
