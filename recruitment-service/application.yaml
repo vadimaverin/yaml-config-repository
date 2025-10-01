@@ -42,8 +42,6 @@ spring:
         spring.json.trusted.packages:
           -'by.javaguru.jdmik7.core.event'
           -'by.javaguru.jdmik7.core.command'
-        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.UUIDDeserializer
-        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
     topics:
       recruitment-response: internal-recruitment-responses
       accounting-request: accounting-allocate-requests
