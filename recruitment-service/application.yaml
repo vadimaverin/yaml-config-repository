@@ -42,6 +42,9 @@ spring:
       accounting-request: accounting-allocate-requests
       security-check: security-check-requests
       notification-send-requests: notification-send-requests
+    retry:
+      interval: 1000
+      max-attempts: 3
 
 resilience4j:
   circuitbreaker:
