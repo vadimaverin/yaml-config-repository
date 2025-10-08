@@ -18,12 +18,6 @@ spring:
   liquibase:
     change-log: db.changelog/db.changelog-master.yaml
     
-outbox:
-  relay:
-    limit: 3
-    poll-interval: 5000
-    initial-delay: 5000
-
   kafka:
     producer:
 #      transaction-id-prefix: transfer-service-${random.value}-
@@ -98,3 +92,9 @@ resilience4j:
         baseConfig: default
       security-service:
         baseConfig: default
+        
+outbox:
+  relay:
+    limit: 3
+    poll-interval: 5000
+    initial-delay: 5000
