@@ -17,6 +17,12 @@ spring:
         format_sql: true
   liquibase:
     change-log: db.changelog/db.changelog-master.yaml
+    
+outbox:
+  relay:
+    limit: 3
+    poll-interval: 5000
+    initial-delay: 5000
 
   kafka:
     producer:
