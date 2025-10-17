@@ -43,6 +43,7 @@ spring:
       accounting-request: accounting-allocate-requests
       security-check: security-check-requests
       notification-send-requests: notification-send-requests
+      profiler-update-requests: profiler-update-requests
     retry:
       interval: 1000
       max-attempts: 3
