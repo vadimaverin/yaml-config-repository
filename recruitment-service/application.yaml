@@ -37,7 +37,7 @@ spring:
       bootstrap-servers: localhost:9092,localhost:9094
       group-id: recruitment-responses-event-consumers
       properties:
-        spring.json.trusted.packages: by.javaguru.jdmik7.core.event, by.javaguru.jdmik7.core.command
+        spring.json.trusted.packages: '*'
     topics:
       recruitment-response: internal-recruitment-responses
       accounting-request: accounting-allocate-requests
