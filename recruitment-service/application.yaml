@@ -98,5 +98,5 @@ resilience4j:
 outbox:
   relay:
     limit: 3
-    poll-interval: 1000
+    poll-interval: 3000
     initial-delay: 5000
