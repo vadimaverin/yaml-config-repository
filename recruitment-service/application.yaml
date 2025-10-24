@@ -35,7 +35,7 @@ spring:
       key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       bootstrap-servers: localhost:9092,localhost:9094
-      group-id: recruitment-responses-event-consumers
+     # group-id: recruitment-responses-event-consumers
       properties:
         spring.json.trusted.packages: 'by.javaguru.jdmik7.core.*'
     topics:
