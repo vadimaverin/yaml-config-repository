@@ -100,3 +100,8 @@ outbox:
     limit: 3
     poll-interval: 3000
     initial-delay: 5000
+app:
+  kafka:
+    group:
+      recruitment: recruitment-listener
+      saga: saga-listener
